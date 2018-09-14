@@ -12,6 +12,14 @@ GIT_COMMIT=$(git rev-parse HEAD)
 docker build -t snipe-it/alpine --build-arg BUILD_DATE=$(date '+%Y-%m-%dT%H:%M:%S%z') --build-arg VERSION=$GIT_COMMIT .
 ```
 
+By default you'll get container with latest version of Snipe-it. If for any reason you need older version, you need to run docker build with additional argument (in example we've version 4.6.0):
+
+```bash
+docker build -t snipe-it/alpine --build-arg BUILD_DATE=$(date '+%Y-%m-%dT%H:%M:%S%z') --build-arg VERSION=$GIT_COMMIT --build-arg SNIPEIT_RELEASE=4.6.0 .
+```
+
+This version of Alpine won't work with Snipe-it version <= 4.0
+
 ## How to run container
 
 You need to edit `env.variables` with your parameters. For this installation you need to have pregenerated `APP_KEY`.
