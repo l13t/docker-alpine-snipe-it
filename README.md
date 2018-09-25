@@ -9,16 +9,16 @@ Before building container, make sure you've correct timezone. By default it uses
 git clone https://github.com/l13t/docker-alpine-snipe-it
 cd docker-alpine-snipe-it
 GIT_COMMIT=$(git rev-parse HEAD)
-docker build -t snipe-it/alpine --build-arg BUILD_DATE=$(date '+%Y-%m-%dT%H:%M:%S%z') --build-arg VERSION=$GIT_COMMIT .
+docker build -t snipe-it/alpine .
 ```
 
-By default you'll get container with latest version of Snipe-it. If for any reason you need older version, you need to run docker build with additional argument (in example we've version 4.6.0):
+By default you'll get container with latest version of Snipe-it. If for any reason you need older version, you need to run `docker build` with additional argument (in example we've version 4.6.0):
 
 ```bash
-docker build -t snipe-it/alpine --build-arg BUILD_DATE=$(date '+%Y-%m-%dT%H:%M:%S%z') --build-arg VERSION=$GIT_COMMIT --build-arg SNIPEIT_RELEASE=4.6.0 .
+docker build -t snipe-it/alpine --build-arg SNIPEIT_RELEASE=4.6.0 .
 ```
 
-This version of Alpine won't work with Snipe-it version <= 4.0
+This version of Alpine won't work with Snipe-it version <= 4.0 because of PHP dependencies.
 
 ## How to run container
 
@@ -30,8 +30,9 @@ docker run --env-file ./env.variables -d -p 80:80 --name snipe-it snipe-it/alpin
 
 ## Important notes
 
-* For version 4.6.4 for some reason `APP_URL` should be specified without http(s) in URL
 * Alpine version forced to be 3.8 as latest stable
+* Migration from Snipe-IT version 3 to version 4 should be done manually. There is no automation for this
+* APP_URL should be http://127.0.0.1 (nginx is running on port 80)
 
 ## TODO for next releases
 

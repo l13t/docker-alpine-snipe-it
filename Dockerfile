@@ -1,6 +1,6 @@
 FROM alpine:3.8
 
-ARG SNIPEIT_RELEASE
+LABEL maintainer="Dmytro Prokhorenkov <liet@liet.kiev.ua>"
 
 ENV PHP_FPM_USER="nginx"
 ENV PHP_FPM_GROUP="nginx"
@@ -83,6 +83,8 @@ RUN rm -rf /etc/localtime \
     && echo "${TIMEZONE}" > /etc/timezone \
     && sed -i "s|;*date.timezone =.*|date.timezone = ${TIMEZONE}|i" /etc/php7/php.ini
 
+ARG SNIPE_IT_VER
+
 RUN if [ -z ${SNIPE_IT_VER+x} ]; then \
  	SNIPE_IT_VER=$(curl -sX GET "https://api.github.com/repos/snipe/snipe-it/releases/latest" \
         | awk '/tag_name/{print $4;exit}' FS='[""]'); \
@@ -120,8 +122,3 @@ RUN chmod +x /entrypoint.sh
 CMD ["/entrypoint.sh"]
 
 VOLUME ["/config"]
-
-ARG BUILD_DATE
-ARG VERSION
-LABEL build_version="Version:- ${VERSION} Build-date:- ${BUILD_DATE}"
-LABEL maintainer="Dmytro Prokhorenkov <liet@liet.kiev.ua>"
